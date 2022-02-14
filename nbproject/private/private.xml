@@ -3,7 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/kev/Documents/NetBeansProjects/AdvjAssignment02/web/index.xhtml</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/web/account.xhtml</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/web/index.xhtml</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/web/WEB-INF/wsdl/localhost_4848/CovidWS.wsdl</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/src/java/entities/WorldEntity.java</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/src/java/soap/CovidSOAP.java</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/web/profile.xhtml</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/web/countries.xhtml</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/src/java/soap/CovidData.java</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/src/java/entities/CovidReport.java</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/src/java/beans/CountryBean.java</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/src/java/beans/CovidReportBean.java</file>
+            <file>file:/C:/Users/EM/Desktop/AdvjAssignment02/src/java/beans/WorldEntityBean.java</file>
         </group>
     </open-files>
 </project-private>

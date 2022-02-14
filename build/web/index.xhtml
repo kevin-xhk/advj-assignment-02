@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+    <h:head>
+        <title>CovidReport Processor</title>
+
+    </h:head>
+    <h:body>  
+       <h:form>        
+    <p:commandButton style="float:right;" value="Login" onclick="PF('dlg').show();">
+    </p:commandButton>
+     
+    <p:growl id="growl" sticky="true" showDetail="false" life="3000" />
+     
+    <p:dialog header="Login" widgetVar="dlg" resizable="false">
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel for="username" value="Username:" />
+            <p:inputText id="username" value="#{loginBean.username}" required="true" label="username" />
+             
+            <h:outputLabel for="password" value="Password:" />
+            <p:password id="password" value="#{loginBean.password}" required="true" label="password" />
+             
+            <f:facet name="footer">
+                <p:commandButton value="Login" update="growl" action="#{loginBean.doLogin}"/>
+            </f:facet>
+        </h:panelGrid>
+    </p:dialog>    
+</h:form>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="CovidReport Data"></h:outputText></h1>
+                <p:dataTable id="covid" style="font-size: 12px;" value="#{covidReportBean.covidReports}"
+                     paginator="true" rows="10"
+                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                     rowsPerPageTemplate="5,10,15">
+                    
+                    <p:column headerText="COD" filterBy="#{covidReportBean.covidReports.isoCode}" sortBy="#{covidReportBean.covidReports.isoCode}" >
+                       <h:outputText value="#{covidReportBean.covidReports.isoCode}"/>
+                    </p:column>
+                    
+                    <p:column headerText="LOC" filterBy="#{covidReportBean.covidReports.country.location}" sortBy="#{covidReportBean.covidReports.country.location}" >
+                       <h:outputText value="#{covidReportBean.covidReports.country.location}"/>
+                    </p:column>
+                    
+                    <p:column headerText="CNT" filterBy="#{covidReportBean.covidReports.country.continent.continentName}" sortBy="#{covidReportBean.covidReports.country.continent.continentName}" >
+                       <h:outputText value="#{covidReportBean.covidReports.country.continent.continentName}"/>
+                    </p:column>
+                                      
+                    <p:column headerText="Date" sortBy="#{covidReportBean.covidReports.date}" style="width: 100px;" >
+                       <h:outputText value="#{covidReportBean.covidReports.date}"/>
+                    </p:column>
+                    
+                    <p:column headerText="TC" sortBy="#{covidReportBean.covidReports.totalCases}" >
+                       <h:outputText value="#{covidReportBean.covidReports.totalCases}"/>
+                    </p:column>
+                    
+                    <p:column headerText="NC" sortBy="#{covidReportBean.covidReports.newCases}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newCases}"/>
+                    </p:column>
+                    
+                    <p:column headerText="NCS" sortBy="#{covidReportBean.covidReports.newCasesSmoothed}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newCasesSmoothed}"/>
+                    </p:column>
+                    
+                    <p:column headerText="TD" sortBy="#{covidReportBean.covidReports.totalDeaths}" >
+                       <h:outputText value="#{covidReportBean.covidReports.totalDeaths}"/>
+                    </p:column>
+                    
+                    <p:column headerText="ND" sortBy="#{covidReportBean.covidReports.newDeaths}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newDeaths}"/>
+                    </p:column>
+                   
+                    <p:column headerText="NDS" sortBy="#{covidReportBean.covidReports.newDeathsSmoothed}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newDeathsSmoothed}"/>
+                    </p:column>
+                    
+                    <p:column headerText="RR" sortBy="#{covidReportBean.covidReports.reproductionRate}" >
+                       <h:outputText value="#{covidReportBean.covidReports.reproductionRate}"/>
+                    </p:column>
+                    
+                    <p:column headerText="NT" sortBy="#{covidReportBean.covidReports.newTests}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newTests}"/>
+                    </p:column>
+                    
+                    <p:column headerText="TT" sortBy="#{covidReportBean.covidReports.totalTests}" >
+                       <h:outputText value="#{covidReportBean.covidReports.totalTests}"/>
+                    </p:column>
+                    
+                    <p:column headerText="SI" sortBy="#{covidReportBean.covidReports.stringencyIndex}" >
+                       <h:outputText value="#{covidReportBean.covidReports.stringencyIndex}"/>
+                    </p:column>         
+                    
+                    <p:column headerText="NDPC" sortBy="#{covidReportBean.covidReports.newDeathsPerCase}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newDeathsPerCase}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            
+        </f:view>
+    </h:body>
+</html>
+

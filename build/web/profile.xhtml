@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+    >
+    <h:head>
+        <title>CovidReport Website</title>
+    </h:head>
+    <h:body>               
+        <f:view>        
+                                       
+            <h:button icon="pi pi-user" iconPos="left" class="margin-right" outcome="account" style="float:right;" value="Account"></p:button>
+            <h:button icon="pi pi-pencil" iconPos="left" styleClass="ui-button-secondary margin-right"  outcome="countries" style="float:right;" value="Update Countries"></p:button>
+  
+            <h:commandButton icon="pi pi-plus-circle" iconPos="left" onclick="PF('dlg').show();" styleClass="ui-button-success margin-right"/>
+            <h:commandButton icon="pi pi-pencil" iconPos="left" onclick="PF('dialogEdit').show();" styleClass=" margin-right"/>
+            <h:commandButton icon="pi pi-trash" iconPos="left" onclick="PF('dialogDelete').show();" styleClass="ui-button-danger margin-right"/>
+
+            <h:growl id="growl" sticky="true" showDetail="false" life="3000" />
+            
+           <h:dialog header="Edit Covid Data" widgetVar="dialogEdit" resizable="false">
+                  <h:form id="editForm">
+                  <h:panelGrid columns="4" cellpadding="5">
+                      <h:outputLabel for="isoCode" value="COD:" />
+                      <h:inputText id="isoCode" value="#{covidReportBean.covidReport.isoCode}" required="true" label="isoCode" >
+                          <h:ajax listener="#{covidReportBean.findByCompositeKey()}" />
+                      </h:inputText>
+                      
+                        <h:outputLabel for="navigator" value="Date"/>
+                        <h:datePicker id="navigator" value="#{covidReportBean.covidReport.date1}" monthNavigator="true" yearNavigator="true">
+                            <h:ajax listener="#{covidReportBean.findByCompositeKey()}" />
+                        </h:datePicker>
+
+                      
+                       <h:outputLabel for="totalCases" value="TC:" />
+                      <h:inputText id="totalCases" value="#{covidReportBean.covidReport.totalCases}" required="true" label="totalCases" />
+
+                      <h:outputLabel for="newCases" value="NC:" />
+                      <h:inputText id="newCases" value="#{covidReportBean.covidReport.newCases}" required="true" label="newCases" />
+                      
+                      <h:outputLabel for="newCasesSmoothed" value="NCS:" />
+                      <h:inputText id="newCasesSmoothed" value="#{covidReportBean.covidReport.newCasesSmoothed}" required="true" label="newCasesSmoothed" />
+                      
+                       <h:outputLabel for="totalDeaths" value="TD" />
+                      <h:inputText id="totalDeaths" value="#{covidReportBean.covidReport.totalDeaths}" required="true" label="totalDeaths" />
+                      
+                       <h:outputLabel for="newDeaths" value="ND:" />
+                       <h:inputText id="newDeaths" value="#{covidReportBean.covidReport.newDeaths}" required="true" label="newDeaths" />
+                      
+                       <h:outputLabel for="newDeathsSmoothed" value="NDS:" />
+                       <h:inputText id="newDeathsSmoothed" value="#{covidReportBean.covidReport.newDeathsSmoothed}" required="true" label="newDeathsSmoothed" />
+                     
+                       <h:outputLabel for="reproductionRate" value="RR" />
+                       <h:inputText id="reproductionRate" value="#{covidReportBean.covidReport.reproductionRate}" required="true" label="reproductionRate" />
+                      
+                       <h:outputLabel for="newTests" value="NT:" />
+                       <h:inputText id="newTests" value="#{covidReportBean.covidReport.newTests}" required="true" label="newTests" />
+                      
+                       <h:outputLabel for="totalTests" value="TT:" />
+                       <h:inputText id="totalTests" value="#{covidReportBean.covidReport.totalTests}" required="true" label="totalTests" />
+                       
+                       <h:outputLabel for="stringencyIndex" value="SI:" />
+                       <h:inputText id="stringencyIndex" value="#{covidReportBean.covidReport.stringencyIndex}" required="true" label="stringencyIndex" />
+                      
+                       <h:outputLabel for="newDeathsPerCase" value="NDPC:" />
+                       <h:inputText id="newDeathsPerCase" value="#{covidReportBean.covidReport.newDeathsPerCase}" required="true" label="newDeathsPerCase" />
+
+                      <f:facet name="footer">
+                          <h:commandButton value="Save" style="float:right;" update="growl" action="#{covidReportBean.update()}">
+                              <f:ajax execute="@this"  render="@form :covidForm" />
+                          </h:commandButton>
+                      </f:facet>
+                  </h:panelGrid>
+                             </h:form>
+              </h:dialog>
+
+            
+            <h:dialog header="Delete Covid Data" widgetVar="dialogDelete" resizable="false">
+                  <h:form id="deleteForm">
+                  <h:panelGrid columns="4" cellpadding="5">
+                      <h:outputLabel for="isoCode" value="COD:" />
+                      <h:inputText id="isoCode" value="#{covidReportBean.covidReport.isoCode}" required="true" label="isoCode" />
+                      
+                        <h:outputLabel for="navigator" value="Date"/>
+                        <h:datePicker id="navigator" value="#{covidReportBean.covidReport.date1}" monthNavigator="true" yearNavigator="true" showWeek="true"/>
+
+                      <f:facet name="footer">
+                          <h:commandButton value="Delete" styleClass="ui-button-danger" style="float:right;" update="growl" action="#{covidReportBean.delete()}">
+                               <f:ajax execute="@this"  render="@form :covidForm" />
+                              </h:commandButton>
+                      </f:facet>
+                  </h:panelGrid>
+                             </h:form>
+              </h:dialog>
+            
+            
+              <h:dialog header="Add New Covid Data" widgetVar="dlg" resizable="false">
+                  <h:form id="addForm">
+                  <h:panelGrid columns="4" cellpadding="5">
+                      <h:outputLabel for="isoCode" value="COD:" />
+                      <h:inputText id="isoCode" value="#{covidReportBean.covidReport.isoCode}" required="true" label="isoCode" >
+                          <h:ajax listener="#{covidReportBean.findByIso()}"/>
+                      </h:inputText>
+                      
+                        <h:outputLabel for="navigator" value="Navigator"/>
+                        <h:datePicker id="navigator" value="#{covidReportBean.covidReport.date1}" monthNavigator="true" yearNavigator="true">
+                        </h:datePicker>
+
+                      
+                       <h:outputLabel for="totalCases" value="TC:" />
+                      <h:inputText id="totalCases" value="#{covidReportBean.covidReport.totalCases}" required="true" label="totalCases" />
+                      
+                       <h:outputLabel for="newCases" value="NC:" />
+                      <h:inputText id="newCases" value="#{covidReportBean.covidReport.newCases}" required="true" label="newCases" />
+                      
+                      <h:outputLabel for="newCasesSmoothed" value="NCS:" />
+                      <h:inputText id="newCasesSmoothed" value="#{covidReportBean.covidReport.newCasesSmoothed}" required="true" label="newCasesSmoothed" />
+                      
+                       <h:outputLabel for="totalDeaths" value="TD" />
+                      <h:inputText id="totalDeaths" value="#{covidReportBean.covidReport.totalDeaths}" required="true" label="totalDeaths" />
+                      
+                       <h:outputLabel for="newDeaths" value="Iso Code:" />
+                       <h:inputText id="newDeaths" value="#{covidReportBean.covidReport.newDeaths}" required="true" label="newDeaths" />
+                      
+                       <h:outputLabel for="newDeathsSmoothed" value="NDS:" />
+                       <h:inputText id="newDeathsSmoothed" value="#{covidReportBean.covidReport.newDeathsSmoothed}" required="true" label="newDeathsSmoothed" />
+                     
+                       <h:outputLabel for="reproductionRate" value="RR" />
+                       <h:inputText id="reproductionRate" value="#{covidReportBean.covidReport.reproductionRate}" required="true" label="reproductionRate" />
+                      
+                       <h:outputLabel for="newTests" value="NT:" />
+                       <h:inputText id="newTests" value="#{covidReportBean.covidReport.newTests}" required="true" label="newTests" />
+                      
+                       <h:outputLabel for="totalTests" value="TT:" />
+                       <h:inputText id="totalTests" value="#{covidReportBean.covidReport.newDeathsSmoothed}" required="true" label="totalTests" />
+                       
+                       <h:outputLabel for="stringencyIndex" value="SI:" />
+                       <h:inputText id="stringencyIndex" value="#{covidReportBean.covidReport.stringencyIndex}" required="true" label="stringencyIndex" />
+                      
+                       <h:outputLabel for="newDeathsPerCase" value="NDPC:" />
+                       <h:inputText id="newDeathsPerCase" value="#{covidReportBean.covidReport.newDeathsPerCase}" required="true" label="newDeathsPerCase" />
+
+                      <f:facet name="footer">
+                          <h:commandButton value="Add" style="float:right;" update="growl" action="#{covidReportBean.create()}">
+                              <f:ajax execute="@this"  render="@form :covidForm" />
+                              </h:commandButton>
+                      </f:facet>
+                  </h:panelGrid>
+                             </h:form>
+              </h:dialog>
+
+            
+            <h:form id="covidForm">
+
+                 <h:dataTable id="covid1" style="font-size: 10px;" value="#{covidReportBean.covidReports}"
+                     paginator="true" rows="10"
+                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                     rowsPerPageTemplate="5,10,15">
+                    
+                    <h:column headerText="COD" filterBy="#{covidReportBean.covidReports.isoCode}" sortBy="#{covidReportBean.covidReports.isoCode}" >
+                       <h:outputText value="#{covidReportBean.covidReports.isoCode}"/>
+                    </h:column>
+                    
+                    <h:column headerText="LOC" filterBy="#{covidReportBean.covidReports.country.location}" sortBy="#{covidReportBean.covidReports.country.location}" >
+                       <h:outputText value="#{covidReportBean.covidReports.country.location}"/>
+                    </h:column>
+                    
+                    <h:column headerText="CNT" filterBy="#{covidReportBean.covidReports.country.continent.continentName}" sortBy="#{covidReportBean.covidReports.country.continent.continentName}" >
+                       <h:outputText value="#{covidReportBean.covidReports.country.continent.continentName}"/>
+                    </h:column>
+                                      
+                    <h:column headerText="Date" filterBy="#{covidReportBean.covidReports.date}" sortBy="#{covidReportBean.covidReports.date}">
+                       <h:outputText value="#{covidReportBean.covidReports.date}"/>
+                    </h:column>
+                    
+                    <p:column headerText="TC" sortBy="#{covidReportBean.covidReports.totalCases}" >
+                       <h:outputText value="#{covidReportBean.covidReports.totalCases}"/>
+                    </p:column>
+                    
+                    <p:column headerText="NC" sortBy="#{covidReportBean.covidReports.newCases}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newCases}"/>
+                    </p:column>
+                    
+                    <p:column headerText="NCS" sortBy="#{covidReportBean.covidReports.newCasesSmoothed}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newCasesSmoothed}"/>
+                    </p:column>
+                    
+                    <p:column headerText="TD" sortBy="#{covidReportBean.covidReports.totalDeaths}" >
+                       <h:outputText value="#{covidReportBean.covidReports.totalDeaths}"/>
+                    </p:column>
+                    
+                    <p:column headerText="ND" sortBy="#{covidReportBean.covidReports.newDeaths}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newDeaths}"/>
+                    </p:column>
+                   
+                    <p:column headerText="NDS" sortBy="#{covidReportBean.covidReports.newDeathsSmoothed}" >
+                       <h:outputText value="#{covidReportBean.covidReports.newDeathsSmoothed}"/>
+                    </p:column>
+                    
+                    <p:column headerText="RR" sortBy="#{covidReportBean.covidReports.reproductionRate}" >
+                       <h:outputText value="#{covidReportBean.covidReports.reproductionRate}"/>
+                    </p:column>
+                    
+                    <p:column headerText="NT" sortBy="#{covidReportBean.newTests}" >
+                       <h:outputText value="#{covidReportBean.newTests}"/>
+                    </p:column>
+                    
+                    <p:column headerText="TT" sortBy="#{covidReportBean.totalTests}" >
+                       <h:outputText value="#{covidReportBean.totalTests}"/>
+                    </p:column>
+                    
+                    <p:column headerText="SI" sortBy="#{covidReportBean.stringencyIndex}" >
+                       <h:outputText value="#{covidReportBean.stringencyIndex}"/>
+                    </p:column>         
+                    
+                    <p:column headerText="NDPC" sortBy="#{covidReportBean.newDeathsPerCase}" >
+                       <h:outputText value="#{covidReportBean.newDeathsPerCase}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            
+        </f:view>
+    </h:body>
+</html>
+

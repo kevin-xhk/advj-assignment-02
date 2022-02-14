@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Covid Processor</title>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+    <h:body>    
+
+        <f:view>
+           <h1><h:outputText value="Countries"></h:outputText></h1>
+          
+            <p:commandButton icon="pi pi-plus-circle" iconPos="left" onclick="PF('dlg').show();" styleClass="ui-button-success margin-right" value="Add New Country"/>
+            <p:growl id="growl" sticky="true" showDetail="false" life="3000" />
+            <h:form id="form1">
+            
+            
+              <p:dialog header="Add New Country" widgetVar="dlg" resizable="false">
+                  <h:panelGrid columns="2" cellpadding="5">
+                      <h:outputLabel for="isoCode" value="Iso Code:" />
+                      <p:inputText id="isoCode" value="#{countryBean.country.countryIsoCode}" required="true" label="isoCode" />
+                     
+                      <p:outputLabel for="@next" value="ContinentId"/>
+                      <p:selectOneMenu id="option" value="#{countryBean.country.continentId}">
+                          <ui:param name="cont" value="#{continentBean.continents}" />
+                          <f:selectItem itemLabel="#{cont.get(0).continentName}" itemValue="#{cont.get(0).id}"/>
+                          <f:selectItem itemLabel="#{cont.get(1).continentName}" itemValue="#{cont.get(1).id}"/>
+                          <f:selectItem itemLabel="#{cont.get(2).continentName}" itemValue="#{cont.get(2).id}"/>
+                          <f:selectItem itemLabel="#{cont.get(3).continentName}" itemValue="#{cont.get(3).id}"/>
+                          <f:selectItem itemLabel="#{cont.get(4).continentName}" itemValue="#{cont.get(4).id}"/>
+                          <f:selectItem itemLabel="#{cont.get(5).continentName}" itemValue="#{cont.get(5).id}"/>
+                          <f:selectItem itemLabel="#{cont.get(6).continentName}" itemValue="#{cont.get(6).id}"/>
+                            </p:selectOneMenu>
+                      
+                      <h:outputLabel for="location" value="Location:" />
+                      <p:inputText id="location" value="#{countryBean.country.location}" required="true" label="location" />
+                      
+                      <h:outputLabel for="medianAge" value="Median Age:" />
+                      <p:inputText id="medianAge" value="#{countryBean.country.medianAge}" required="true" label="medianAge" />
+                      
+                      <h:outputLabel for="population" value="Population:" />
+                      <p:inputText id="population" value="#{countryBean.country.population}" required="true" label="population" />
+
+
+                      <f:facet name="footer">
+                          <p:commandButton value="Add" update="growl" action="#{countryBean.create()}"/>
+                      </f:facet>
+                  </h:panelGrid>
+              </p:dialog>    
+                </h:form>
+            <h:form id="form">
+
+                <p:dataTable id="covid1" style="font-size: 12px;" value="#{countryBean.countries}"
+                     paginator="true" rows="10"
+                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                     rowsPerPageTemplate="5,10,15">
+                    
+                    <p:column headerText="Iso Code" filterBy="#{covidReportBean.covidReports.countryIsoCode}" sortBy="#{covidReportBean.covidReports.countryIsoCode}" >
+                        <h:outputText value="#{covidReportBean.covidReports.countryIsoCode}" rendered="#{!covidReportBean.covidReports.editable}"/>
+                       <p:inputText value="#{covidReportBean.covidReports.countryIsoCode}"
+					rendered="#{covidReportBean.covidReports.editable}" disabled='true'/>
+                    </p:column>
+                    
+                    <p:column headerText="Continent ID" filterBy="#{covidReportBean.covidReports.continentId}" sortBy="#{covidReportBean.covidReports.continentId}" >
+                       <h:outputText value="#{covidReportBean.covidReports.continentId}" rendered="#{!covidReportBean.covidReports.editable}"/>
+                       <p:inputText value="#{covidReportBean.covidReports.continentId}"
+					rendered="#{covidReportBean.covidReports.editable}" />
+                    </p:column>
+                    
+                    <p:column headerText="Location" filterBy="#{covidReportBean.covidReports.location}" sortBy="#{covidReportBean.covidReports.location}" >
+                       <h:outputText value="#{covidReportBean.covidReports.location}" rendered="#{!covidReportBean.covidReports.editable}"/>
+                       <p:inputText value="#{covidReportBean.covidReports.location}"
+					rendered="#{covidReportBean.covidReports.editable}" />
+                    </p:column>
+                                      
+                    <p:column headerText="Median Age" filterBy="#{covidReportBean.covidReports.medianAge}" sortBy="#{covidReportBean.covidReports.medianAge}">
+                       <h:outputText value="#{covidReportBean.covidReports.medianAge}" rendered="#{!covidReportBean.covidReports.editable}"/>
+                       <p:inputText value="#{covidReportBean.covidReports.medianAge}"
+					rendered="#{covidReportBean.covidReports.editable}" />
+                    </p:column>
+                    
+                    <p:column headerText="Population" filterBy="#{covidReportBean.covidReports.population}" sortBy="#{covidReportBean.covidReports.population}" >
+                       <h:outputText value="#{covidReportBean.covidReports.population}" rendered="#{!covidReportBean.covidReports.editable}"/>
+                       <p:inputText value="#{covidReportBean.covidReports.population}"
+					rendered="#{covidReportBean.covidReports.editable}" />
+                    </p:column>
+                    
+                   
+                    <p:column headerText="Edit" >
+            <p:commandButton value="Edit" id="editBTN" icon="pi pi-pencil" iconPos="left" widgetVar="editButton"
+                             action="#{countryBean.editCountry(k)}"
+               rendered="#{!covidReportBean.editable}">
+                <f:ajax execute="@form" render="@form" />
+            </p:commandButton>
+
+                        <p:commandButton value="Save" 
+                             action="#{countryBean.update}"
+               rendered="#{covidReportBean.editable}">
+                 <f:ajax execute="@form" render="@form" />
+            </p:commandButton>
+             </p:column  >
+                    <p:column headerText="Delete">
+                        <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger" update="@form" action="#{countryBean.delete(k)}"/>
+                                                                     
+                    </p:column>
+                   
+                </p:dataTable>
+            </h:form>
+            
+        </f:view>
+    </h:body>
+</html>
+
