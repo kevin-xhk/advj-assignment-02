@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 @Table(name="countries")
 @NamedQueries({
     @NamedQuery(name="Country.findByIsoCode",
-                query="Select t1 FROM Country t1 WHERE t1.countryIsoCode = :isoCode"),
+                query="Select t1 FROM Country t1 WHERE t1.countryIso = :isoCode"),
 })
 public class Country implements Serializable {
 
@@ -36,17 +36,16 @@ public class Country implements Serializable {
     private String location;
     @Basic(optional = false)
     @Column(name = "continentId")
+    
     private Integer continentId;
     private Long population;
     private Double medianAge;
 
     //define relationship
-    @PrimaryKeyJoinColumn(name = "continentId", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn(name = "continentId",
+                          referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Continent continent;
-
-    @Transient
-    private boolean editable = false;
     
     public Country(){}
 
@@ -54,10 +53,10 @@ public class Country implements Serializable {
                    Integer continentId, Long population, Double medianAge) {
         this();
         this.countryIsoCode = countryIsoCode;
-        this.location = location;
-        this.continentId = continentId;
-        this.population = population;
-        this.medianAge = medianAge;
+        this.location       = location;
+        this.continentId    = continentId;
+        this.population     = population;
+        this.medianAge      = medianAge;
     }
 
     public boolean isEditable() {
@@ -109,10 +108,13 @@ public class Country implements Serializable {
     // Object methods
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Country that = (Country) o;
-        return Objects.equals(countryIsoCode, that.countryIsoCode);
+        return Objects.equals(
+            countryIsoCode, that.countryIsoCode);
     }
     public int hashCode() {
         return Objects.hash(countryIsoCode);
